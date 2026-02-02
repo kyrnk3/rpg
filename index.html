@@ -530,8 +530,7 @@
           img.onerror = null;
           img.remove();
           setError(
-            `Missing image for: ${e.name} (#${e.id})${e.shiny ? " [shiny]" : ""}\n` +
-            `If this is a special form, add an explicit "img" URL for that entry in data/colors.js.`
+            `Missing image for: ${e.name} (#${e.id})${e.shiny ? " [shiny]" : ""}
           );
         };
 
