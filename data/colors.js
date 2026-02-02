@@ -10,7 +10,7 @@ export const COLOR_POOLS = {
   white: [],
   gray: [],
   brown: [],
-  pink: [{ id: 30, name: "nidorina", shiny: true },
+  pink: [
   { id: 35, name: "clefairy" },
   { id: 35, name: "clefairy", shiny: true },
   { id: 36, name: "clefable" },
