@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Random Pokémon Generator</title>
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#111827;
+      --card:#0f172a;
+      --card2:#111c33;
+      --text:#e5e7eb;
+      --muted:#a7b0c2;
+      --ring: rgba(255,255,255,.12);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --shadow2: 0 8px 18px rgba(0,0,0,.35);
+
+      --accent:#ef4444;
+      --accent2:#fb7185;
+      --accentText:#0b1220;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 700px at 15% 10%, rgba(255,255,255,.06), transparent 55%),
+        radial-gradient(900px 650px at 90% 20%, rgba(255,255,255,.05), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 28px 18px 32px;
+    }
+
+    .hero{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:16px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(26px, 2.8vw, 40px);
+      letter-spacing:.2px;
+      line-height:1.05;
+      text-shadow: 0 2px 0 rgba(0,0,0,.25);
+    }
+    .subtitle{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+      max-width: 52ch;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 20px rgba(0,0,0,.22);
+      color: var(--text);
+      font-weight:800;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .badgeDot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.08), 0 0 20px rgba(255,255,255,.05);
+    }
+
+    .panel{
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelInner{
+      background: linear-gradient(180deg, rgba(15,23,42,.80), rgba(15,23,42,.65));
+      padding: 16px;
+    }
+
+    .controls{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 860px){
+      .controls{
+        grid-template-columns: 1.2fr 1fr 1fr auto;
+        align-items:end;
+      }
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+    .labelRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    label{
+      font-size:12px;
+      color: var(--muted);
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .hint{
+      font-size:12px;
+      color: rgba(255,255,255,.55);
+    }
+
+    .control{
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      color: var(--text);
+      padding: 0 14px;
+      font-weight:800;
+      outline:none;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+    }
+    .control:focus{
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.12),
+        0 0 0 4px rgba(255,255,255,.08),
+        0 0 0 7px rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    select.control{
+      appearance:none;
+      background-image:
+        radial-gradient(circle at 20px 50%, rgba(255,255,255,.0) 0 0),
+        linear-gradient(45deg, transparent 50%, rgba(255,255,255,.75) 50%),
+        linear-gradient(135deg, rgba(255,255,255,.75) 50%, transparent 50%);
+      background-position:
+        0 0,
+        calc(100% - 18px) 18px,
+        calc(100% - 12px) 18px;
+      background-size:
+        0 0,
+        6px 6px,
+        6px 6px;
+      background-repeat:no-repeat;
+      padding-right: 40px;
+    }
+
+    .btn{
+      height:44px;
+      border-radius:999px;
+      border: 1px solid rgba(0,0,0,.18);
+      background: linear-gradient(180deg, var(--accent2), var(--accent));
+      color: var(--accentText);
+      font-weight: 1000;
+      letter-spacing:.02em;
+      padding: 0 18px;
+      cursor:pointer;
+      box-shadow: 0 10px 18px rgba(0,0,0,.28);
+      transition: transform .08s ease, filter .08s ease;
+    }
+    .btn:hover{ filter: brightness(1.03); }
+    .btn:active{ transform: translateY(1px); }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .toggles{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    .toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-weight:800;
+      font-size:13px;
+      user-select:none;
+    }
+    .toggle input{ transform: translateY(1px); }
+
+    .msgRow{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-top:12px;
+      min-height: 40px;
+    }
+    .status{
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .error{
+      color: #fecaca;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .results{
+      margin-top: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .resultsHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+    }
+    .resultsHeader strong{
+      font-size: 14px;
+      letter-spacing:.02em;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .grid{
+      padding: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .card{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(17,24,39,.75), rgba(15,23,42,.65));
+      padding: 12px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, border-color .12s ease, filter .12s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      filter: brightness(1.02);
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-80px -120px auto auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at center, rgba(255,255,255,.10), transparent 60%);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
+    .sprite{
+      width: 110px;
+      height: 110px;
+      display:block;
+      margin: 2px auto 10px;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.35));
+    }
+    .name{
+      font-weight: 1000;
+      text-transform: capitalize;
+      font-size: 14px;
+      letter-spacing: .01em;
+      text-align:center;
+    }
+    .meta{
+      margin-top: 6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .idPill{
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .sparkle{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:#fde68a;
+    }
+
+    .footer{
+      margin-top: 14px;
+      text-align:center;
+      color: rgba(255,255,255,.50);
+      font-size:12px;
+    }
+    .footer a{ color:inherit; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="title">
+        <h1>Random Pokémon Generator</h1>
+        <div class="subtitle">
+          Hand-curated color pools (including shinies) + fast client-side rolls. No API calls required for data.
+        </div>
+      </div>
+      <div class="badge" title="Accent matches selected color">
+        <span class="badgeDot" id="badgeDot"></span>
+        <span id="badgeText">Color Pool</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panelInner">
+        <div class="controls">
+          <div class="field">
+            <div class="labelRow">
+              <label for="count">How many</label>
+            </div>
+            <input id="count" class="control" type="number" min="1" max="24" value="6" />
+          </div>
+
+          <div class="field">
+            <div class="labelRow">
+              <label for="color">Color</label>
+            </div>
+            <select id="color" class="control"></select>
+          </div>
+
+          <div class="field">
+            <div class="labelRow">
+              <label for="display">Display</label>
+            </div>
+            <select id="display" class="control">
+              <option value="names_images">Names & Images</option>
+              <option value="names_only">Names Only</option>
+            </select>
+          </div>
+
+          <button id="generateBtn" class="btn">Generate</button>
+        </div>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input id="avoidDuplicates" type="checkbox" checked />
+            Avoid duplicates
+          </label>
+
+          <label class="toggle">
+            <input id="allowShinies" type="checkbox" checked />
+            Allow shinies (if in pool)
+          </label>
+
+          <label class="toggle" title="Official artwork looks nicer but doesn't have shiny variants here.">
+            <input id="preferOfficialArt" type="checkbox" />
+            Prefer official artwork
+          </label>
+        </div>
+
+        <div class="msgRow">
+          <div id="status" class="status"></div>
+          <div id="error" class="error"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="results">
+      <div class="resultsHeader">
+        <strong>Results</strong>
+        <div class="chip" id="poolChip">—</div>
+      </div>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <div class="footer">
+      Sprites/artwork hosted on the public PokeAPI sprites repo.
+    </div>
+  </div>
+
+  <script type="module">
+    import { COLOR_POOLS } from "./data/colors.js";
+
+    const SPRITES_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+    const OFFICIAL_ART_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
+
+    const COLOR_ACCENTS = {
+      red:    ["#ef4444", "#fb7185"],
+      blue:   ["#3b82f6", "#60a5fa"],
+      yellow: ["#f59e0b", "#fde047"],
+      green:  ["#22c55e", "#86efac"],
+      black:  ["#94a3b8", "#64748b"],
+      white:  ["#e5e7eb", "#f8fafc"],
+      gray:   ["#9ca3af", "#d1d5db"],
+      brown:  ["#a16207", "#fbbf24"],
+      pink:   ["#ec4899", "#fda4af"],
+      purple: ["#a855f7", "#c4b5fd"],
+    };
+
+    const elCount = document.getElementById("count");
+    const elColor = document.getElementById("color");
+    const elDisplay = document.getElementById("display");
+    const elAvoidDupes = document.getElementById("avoidDuplicates");
+    const elAllowShinies = document.getElementById("allowShinies");
+    const elPreferArt = document.getElementById("preferOfficialArt");
+    const elBtn = document.getElementById("generateBtn");
+    const elStatus = document.getElementById("status");
+    const elError = document.getElementById("error");
+    const elGrid = document.getElementById("grid");
+    const elPoolChip = document.getElementById("poolChip");
+    const elBadgeText = document.getElementById("badgeText");
+    const elBadgeDot = document.getElementById("badgeDot");
+
+    function setStatus(msg){ elStatus.textContent = msg || ""; }
+    function setError(msg){ elError.textContent = msg || ""; }
+    function clearGrid(){ elGrid.innerHTML = ""; }
+
+    function sample(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function pickN(array, n, avoidDuplicates=true){
+      if (!avoidDuplicates) return Array.from({length:n}, () => sample(array));
+      const copy = array.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0, Math.min(n, copy.length));
+    }
+
+    function applyAccent(colorKey){
+      const pair = COLOR_ACCENTS[colorKey] || ["#ef4444", "#fb7185"];
+      document.documentElement.style.setProperty("--accent", pair[0]);
+      document.documentElement.style.setProperty("--accent2", pair[1]);
+      elBadgeDot.style.background = pair[0];
+      elBadgeText.textContent = `${colorKey[0].toUpperCase()}${colorKey.slice(1)} Pool`;
+    }
+
+    function spriteUrl(entry){
+      if (entry.img) return entry.img;
+
+      const preferArt = elPreferArt.checked;
+      if (preferArt) return `${OFFICIAL_ART_BASE}/${entry.id}.png`;
+
+      const allowShiny = elAllowShinies.checked;
+      const shouldShiny = allowShiny && !!entry.shiny;
+      return shouldShiny
+        ? `${SPRITES_BASE}/shiny/${entry.id}.png`
+        : `${SPRITES_BASE}/${entry.id}.png`;
+    }
+
+    function renderNamesOnly(entries){
+      clearGrid();
+      for (const e of entries){
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="name">${e.name}</div>
+          <div class="meta">
+            <span class="idPill">#${e.id}</span>
+            ${e.shiny ? `<span class="sparkle">✨ Shiny</span>` : ``}
+          </div>
+        `;
+        elGrid.appendChild(card);
+      }
+    }
+
+    function renderCards(entries){
+      clearGrid();
+      for (const e of entries){
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const img = document.createElement("img");
+        img.className = "sprite";
+        img.alt = e.name;
+        img.loading = "lazy";
+        img.src = spriteUrl(e);
+
+        img.onerror = () => {
+          img.onerror = null;
+          img.remove();
+          setError(
+            `Missing image for: ${e.name} (#${e.id})${e.shiny ? " [shiny]" : ""}\n` +
+            `If this is a special form, add an explicit "img" URL for that entry in data/colors.js.`
+          );
+        };
+
+        const name = document.createElement("div");
+        name.className = "name";
+        name.textContent = e.name;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML = `
+          <span class="idPill">#${e.id}</span>
+          ${e.shiny ? `<span class="sparkle">✨ Shiny</span>` : ``}
+        `;
+
+        card.appendChild(img);
+        card.appendChild(name);
+        card.appendChild(meta);
+        elGrid.appendChild(card);
+      }
+    }
+
+    function populateColors(){
+      elColor.innerHTML = "";
+      const keys = Object.keys(COLOR_POOLS);
+      for (const k of keys){
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.textContent = k[0].toUpperCase() + k.slice(1);
+        elColor.appendChild(opt);
+      }
+      if (keys.length) applyAccent(keys[0]);
+    }
+
+    function generate(){
+      setError("");
+
+      const count = Math.max(1, Math.min(24, Number(elCount.value) || 1));
+      const color = elColor.value;
+      const display = elDisplay.value;
+      const avoidDupes = elAvoidDupes.checked;
+
+      applyAccent(color);
+
+      const pool = COLOR_POOLS[color] || [];
+      const total = pool.length;
+
+      elPoolChip.textContent = `${color.toUpperCase()} • ${total} in pool`;
+
+      if (!total){
+        setStatus(`No entries in the ${color} pool yet.`);
+        clearGrid();
+        return;
+      }
+
+      const chosen = pickN(pool, count, avoidDupes);
+      const shinyCount = chosen.reduce((n, e) => n + (e.shiny ? 1 : 0), 0);
+
+      setStatus(
+        `Rolled ${chosen.length} Pokémon from ${color} (${total} total).` +
+        (shinyCount ? ` ✨ ${shinyCount} shiny.` : "")
+      );
+
+      if (display === "names_only") renderNamesOnly(chosen);
+      else renderCards(chosen);
+    }
+
+    try {
+      populateColors();
+      elBtn.addEventListener("click", generate);
+      document.addEventListener("keydown", (e) => { if (e.key === "Enter") generate(); });
+      elColor.addEventListener("change", generate);
+      generate();
+    } catch (e) {
+      setError("Failed to initialize. Check that data/colors.js exports COLOR_POOLS.\n\nDetails: " + (e?.message || e));
+    }
+  </script>
+</body>
+</html>
