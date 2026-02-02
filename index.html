@@ -352,12 +352,12 @@
       <div class="title">
         <h1>Random Pokémon Generator</h1>
         <div class="subtitle">
-          Hand-curated color pools (including shinies) + fast client-side rolls. No API calls required for data.
+          Hand-picked color pools (including shinies).
         </div>
       </div>
       <div class="badge" title="Accent matches selected color">
         <span class="badgeDot" id="badgeDot"></span>
-        <span id="badgeText">Color Pool</span>
+        <span id="badgeText">Color</span>
       </div>
     </div>
 
@@ -366,7 +366,7 @@
         <div class="controls">
           <div class="field">
             <div class="labelRow">
-              <label for="count">How many</label>
+              <label for="count">How many?</label>
             </div>
             <input id="count" class="control" type="number" min="1" max="24" value="6" />
           </div>
@@ -399,7 +399,7 @@
 
           <label class="toggle">
             <input id="allowShinies" type="checkbox" checked />
-            Allow shinies (if in pool)
+            Allow shinies
           </label>
 
           <label class="toggle" title="Official artwork looks nicer but doesn't have shiny variants here.">
