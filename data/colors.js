@@ -5,10 +5,7 @@ export const COLOR_POOLS = {
   orange: [],
   yellow: [],
   green: [
-  { id: 1, name: "bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" },
   { id: 1, name: "bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png", shiny: true },
-  { id: 2, name: "ivysaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/2.png", shiny: true },
-  { id: 3, name: "venusaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/3.png", shiny: true },
   { id: 10, name: "caterpie", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png" },
   { id: 11, name: "metapod", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png" },
   { id: 11, name: "metapod", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/11.png", shiny: true },
@@ -65,7 +62,6 @@ export const COLOR_POOLS = {
   { id: 192, name: "sunflora", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/192.png" },
   { id: 196, name: "espeon", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/196.png", shiny: true },
   { id: 200, name: "misdreavus", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/200.png", shiny: true },
-  { id: 211, name: "qwilfish", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/211.png" },
   { id: 212, name: "scizor", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/212.png", shiny: true },
   { id: 216, name: "teddiursa", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/216.png", shiny: true },
   { id: 217, name: "ursaring", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/217.png", shiny: true },
