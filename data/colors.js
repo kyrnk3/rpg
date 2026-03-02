@@ -192,7 +192,6 @@ export const COLOR_POOLS = {
   { id: 753, name: "fomantis", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/753.png", shiny: true },
   { id: 754, name: "lurantis", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/754.png", shiny: true },
   { id: 764, name: "comfey", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/764.png" },
-  { id: 766, name: "passimian", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/766.png", shiny: true },
   { id: 771, name: "pyukumuku", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/771.png", shiny: true },
   { id: 781, name: "dhelmise", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/781.png" },
   { id: 797, name: "celesteela", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/797.png" },
