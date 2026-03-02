@@ -271,7 +271,7 @@ export const COLOR_POOLS = {
   { id: 10248, name: "basculegion-female", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/10248.png", shiny: true },
   { id: 10282, name: "meganium-mega", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10282.png" },
   { id: 10290, name: "eelektross-mega", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10290.png" },
-  {id: 20000, name: "browt", img: "https://img.pokemondb.net/artwork/large/browt.jpg"},
+  { id: 20000, name: "browt", img: "https://img.pokemondb.net/artwork/large/browt.jpg"},
 ],
   blue: [],
   black: [],
