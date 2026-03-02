@@ -154,7 +154,6 @@ export const COLOR_POOLS = {
   { id: 541, name: "swadloon", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/541.png", shiny: true },
   { id: 542, name: "leavanny", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/542.png" },
   { id: 542, name: "leavanny", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/542.png", shiny: true },
-  { id: 546, name: "cottonee", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/546.png" },
   { id: 548, name: "petilil", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/548.png" },
   { id: 548, name: "petilil", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/548.png", shiny: true },
   { id: 549, name: "lilligant", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/549.png" },
